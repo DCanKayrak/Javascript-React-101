@@ -10,11 +10,26 @@ export default class App extends Component {
 
   state = {
     currentCategory: "",
-    products: []
+    products: [],
+    cart : []
   }
 
   componentDidMount = () => {
     this.getProducts()
+  }
+
+  // ürün -> 
+   
+  addToCart = (product) => {
+    let newCart = this.state.cart;
+    var addedItem = newCart.find(c=>c.product.id === product.id)
+    if(addedItem){
+      addedItem.quantity += 1;
+    }else{
+      newCart.push({product:product,quantity:1});
+    }
+
+    this.setState({cart:newCart})
   }
 
   changeCategory = (category) => {
@@ -41,15 +56,13 @@ export default class App extends Component {
     return (
       <div>
         <Container>
-          <Row>
-            <Navi />
-          </Row>
+          <Navi cart={this.state.cart}/>
           <Row>
             <Col xs="3">
               <CategoryList currentCategory={this.state.currentCategory} changeCategory={this.changeCategory} info={categoryInfo} />
             </Col>
             <Col xs="9">
-              <ProductList products={this.state.products} info={productInfo} currentCategory={this.state.currentCategory} />
+              <ProductList addToCart={this.addToCart} products={this.state.products} info={productInfo} currentCategory={this.state.currentCategory} />
             </Col>
           </Row>
         </Container>
