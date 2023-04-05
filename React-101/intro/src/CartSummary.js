@@ -4,31 +4,47 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-    Badge
+    Badge,
+    NavLink,
+    NavItem
 } from 'reactstrap';
 
 export default class CartSummary extends Component {
+    renderSummary() {
+        return (<UncontrolledDropdown nav inNavbar>
+            <DropdownToggle nav caret>
+                Sepet - {this.props.cart.length}
+            </DropdownToggle>
+            <DropdownMenu right>
+                {
+
+
+                    this.props.cart.map(cartItem => (
+
+                        <DropdownItem key={cartItem.product.id}>
+                            <Badge color='danger' onClick={() => this.props.removeFromCart(cartItem.product)}>X</Badge>
+                            {cartItem.product.name}
+                            <Badge color="success">{cartItem.quantity}</Badge>
+                        </DropdownItem>
+                    ))
+                }
+                <DropdownItem divider />
+                <DropdownItem>Reset</DropdownItem>
+            </DropdownMenu>
+        </UncontrolledDropdown>)
+    }
+
+    renderEmptyCart() {
+        return (
+            <NavLink>
+                <NavItem>Empty Cart</NavItem>
+            </NavLink>
+        );
+    }
     render() {
         return (
             <div>
-                <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret>
-                        Sepet - {this.props.cart.length}
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                        {
-                            this.props.cart.map(cartItem => (
-                                <DropdownItem key={cartItem.product.id}>{cartItem.product.name}
-                                    <Badge color="success">
-                                        {cartItem.quantity}
-                                    </Badge>
-                                </DropdownItem>
-                            ))
-                        }
-                        <DropdownItem divider />
-                        <DropdownItem>Sfırla</DropdownItem>
-                    </DropdownMenu>
-                </UncontrolledDropdown>
+                {this.props.cart.length > 0 ? this.renderSummary() : this.renderEmptyCart()}
             </div>
         )
     }
