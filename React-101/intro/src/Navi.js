@@ -10,6 +10,7 @@ import {
   NavbarText,
 } from 'reactstrap';
 import CartSummary from './CartSummary';
+import { Link } from 'react-router-dom';
 
 export default class Navi extends Component {
 
@@ -24,7 +25,9 @@ export default class Navi extends Component {
             navbar>
             <Nav className="me-auto" navbar>
               <NavItem>
-                <NavLink href="/components/">Components</NavLink>
+                <NavLink>
+                  Component
+                </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/reactstrap/reactstrap">
@@ -33,7 +36,7 @@ export default class Navi extends Component {
               </NavItem>
               <CartSummary removeFromCart={this.props.removeFromCart} cart={this.props.cart}/>
             </Nav>
-            <NavbarText>İyi Alışverişler!</NavbarText>
+            <NavbarText><Link to="/form1">Log In</Link></NavbarText>
           </Collapse>
         </Navbar>
       </div>
